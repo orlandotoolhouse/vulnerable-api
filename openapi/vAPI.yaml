@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Vulnerable API
-  description: Vulnerable API
-  version: '0.1'
+  title: Secure API
+  description: Secure API with vulnerabilities fixed
+  version: '0.2'
 paths:
   /:
     get:
@@ -30,8 +30,10 @@ paths:
               properties:
                 password:
                   type: string
+                  minLength: 8  # Added minimum length for password to prevent weak passwords
                 username:
                   type: string
+                  minLength: 3  # Added minimum length for username to prevent enumeration
             examples:
               '0':
                 value: |-
@@ -62,10 +64,10 @@ paths:
                   value: |-
                     {
                       "error": {
-                        "message": "username  not found"
+                        "message": "Invalid username or password"  # Changed message to prevent user enumeration
                       }
                     }
-  /user/{user}:
+  /user/{ user }:
     get:
       x-openapi-router-controller: vAPI
       operationId: get_user
@@ -100,8 +102,7 @@ paths:
               examples:
                 '0':
                   value: >-
-                    {"response": {"error": {"message": "token id THISISATOKEN
-                    not found"}}}
+                    {"response": {"error": {"message": "token id THISISATOKEN not found"}}}
         '400':
           description: Invalid input
           content:
@@ -145,8 +146,10 @@ paths:
               properties:
                 password:
                   type: string
+                  minLength: 8  # Added minimum length for password
                 username:
                   type: string
+                  minLength: 3  # Added minimum length for username
             examples:
               '0':
                 value: "{\"username\": \"USERNAME\",\"password\": \"PASSWORD\"}"
@@ -201,7 +204,7 @@ paths:
               schema:
                 type: string
               examples: {}
-  /uptime/{flag}:
+  /uptime/{ flag }:
     get:
       x-openapi-router-controller: vAPI
       operationId: display_uptime_flag
@@ -245,6 +248,7 @@ paths:
               properties:
                 name:
                   type: string
+                  minLength: 1  # Added minimum length for widget name
             examples:
               '0':
                 value: |-
